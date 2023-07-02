@@ -2,7 +2,8 @@
      ["taserammo"]                      = {["name"] = "taserammo",                        ["label"] = "Taser Cartridges",            ["weight"] = 3000,        ["type"] = "item",        ["image"] = "taserammo.png",              ["unique"] = false,        ["useable"] = true,        ["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "No More Spamming. lul"},  
 
      --in smallresources > client > ignore add
-     maxTaserCarts = 2 -- The amount of taser cartridges a person can have.
+     local QBCore = exports['qb-core']:GetCoreObject()
+     maxTaserCarts = 5 -- The amount of taser cartridges a person can have.
 
      local taserCartsLeft = maxTaserCarts
      
@@ -59,8 +60,8 @@ CreateThread(function()
     end
 end)
 
-RegisterCommand('test', function()
-    TriggerEvent("FillTaser")
+--RegisterCommand('test', function()
+    --TriggerEvent("FillTaser")
 end) 
 
 --this goes in smallresoureces>server>consumables
