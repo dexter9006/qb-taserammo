@@ -3,14 +3,14 @@
 
      --in smallresources > client > ignore add
      local QBCore = exports['qb-core']:GetCoreObject()
-     maxTaserCarts = 5 -- The amount of taser cartridges a person can have.
+     maxTaserCarts = 3 -- The amount of taser cartridges a person can have.
 
      local taserCartsLeft = maxTaserCarts
      
      RegisterNetEvent("FillTaser")
      AddEventHandler("FillTaser",function(source, args, rawCommand)
          
-         QBCore.Functions.Progressbar("load_tazer", "Reloading Tazer..", 2000, false, true, {
+         QBCore.Functions.Progressbar("load_tazer", "Rechargement du Taser..", 2000, false, true, {
              disableMovement = false,
              disableCarMovement = false,
              disableMouse = false,
@@ -22,12 +22,13 @@
          }, {}, {}, function() -- Done
          
              
-             taserCartsLeft = maxTaserCarts
-             TriggerServerEvent("QBCore:Server:RemoveItem", "taserammo", 1)
-             TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["taserammo"], "remove")
+             --taserCartsLeft = maxTaserCarts
+		--TriggerServerEvent("QBCore:Server:RemoveItem", "taserammo", 1)
+             --TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["taserammo"], "remove")
              
          end)
      end)  
+
 
    --add this also in the same area right below
  local taserModel = GetHashKey("WEAPON_STUNGUN")
@@ -49,7 +50,7 @@ CreateThread(function()
                 SetPlayerCanDoDriveBy(ped, false)
                 DisablePlayerFiring(ped, true)
                 if IsControlJustReleased(0, 106) then
-                    QBCore.Functions.Notify("You need to reload your taser!", "error")
+                    QBCore.Functions.Notify("Vous devez recharger votre taser!", "error")
                 end
             end
         end
@@ -64,12 +65,14 @@ end)
     --TriggerEvent("FillTaser")
 end) 
 
+
 --this goes in smallresoureces>server>consumables
- 
  QBCore.Functions.CreateUseableItem("taserammo", function(source, item)
     local src = source
     local Player = QBCore.Functions.GetPlayer(source)
     if Player.Functions.RemoveItem(item.name, 1, item.slot) then
         TriggerClientEvent("FillTaser", source)
+        Citizen.Wait(2000)
+        Player.Functions.RemoveItem(item.name, 1, item.slot)
     end
 end) 
